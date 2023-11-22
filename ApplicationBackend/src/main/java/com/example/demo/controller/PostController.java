@@ -19,6 +19,8 @@ public class PostController {
 	@Autowired
 	PostRepository postRepository;
 	
+	//fefwfaf;
+	
 	@PostMapping("/feed")
 	public ResponseEntity<Post> savePostDetails(@RequestBody Post post) {
 		
