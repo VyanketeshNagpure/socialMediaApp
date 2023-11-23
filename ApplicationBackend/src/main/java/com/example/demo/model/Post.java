@@ -9,10 +9,12 @@ import jakarta.persistence.Id;
 public class Post {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long postId;
 	Long userId;
+	String userName;
 	Integer comments;
+	Integer likes;
 	String captions;
 	String image;
 	
@@ -21,11 +23,13 @@ public class Post {
 	public Post() {
 		super();
 	}
-	public Post(Long postId, Long userId, Integer comments, String captions, String image) {
+	public Post(Long postId, Long userId, String userName, Integer comments, Integer likes, String captions, String image) {
 		super();
 		this.postId = postId;
 		this.userId = userId;
+		this.userName = userName;
 		this.comments = comments;
+		this.likes = likes;
 		this.captions = captions;
 		this.image = image;
 	}
@@ -41,11 +45,23 @@ public class Post {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public Integer getComments() {
 		return comments;
 	}
 	public void setComments(Integer comments) {
 		this.comments = comments;
+	}
+	public Integer getLikes() {
+		return likes;
+	}
+	public void setLikes(Integer likes) {
+		this.likes = likes;
 	}
 	public String getCaptions() {
 		return captions;
@@ -59,13 +75,15 @@ public class Post {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "Post [postId=" + postId + ", userId=" + userId + ", comments=" + comments + ", captions=" + captions
-				+ ", image=" + image + "]";
+		return "Post [postId=" + postId + ", userId=" + userId + ", userName=" + userName + ", comments=" + comments
+				+ ", likes=" + likes + ", captions=" + captions + ", image=" + image + "]";
 	}
+	
+	
+	
 	
 	
 	
