@@ -2,8 +2,11 @@ package com.example.demo.model;
 
 import java.util.List;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import com.example.demo.dao.Comment;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,10 +21,10 @@ public class Post {
 	Long postId;
 	Long userId;
 	String userName;
-	Integer noOfComments;
+	Integer noOfComments = 0;
 	@ElementCollection  
 	List<Comment> Comments;
-	Integer likes;
+	Integer likes = 0;
 	String captions;
 	String image;
 	
