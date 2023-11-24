@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.example.demo.dao.Comment;
 import com.example.demo.model.Post;
 import com.example.demo.repository.PostRepository;
 
@@ -56,5 +58,35 @@ public class PostController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(requiredPost);
 	}
+	
+	@PostMapping("feed/{postId}/comments")
+	public ResponseEntity<Comment> postComments(@PathVariable Long postId,@RequestBody Comment commentBody){
+		
+		Post requiredPost = postRepository.getByPostId(postId);
+		
+		List<Comment> allComments = requiredPost.getComments();
+		
+		allComments.add(commentBody);
+		
+		
+		requiredPost.setComments(allComments);
+		
+		postRepository.save(requiredPost);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(commentBody);
+	}
+	
+	@GetMapping("feed/{postId}/comments")
+	public ResponseEntity<List<Comment>> getAllComments(@PathVariable Long postId){
+		
+		Post requiredPost = postRepository.getByPostId(postId);
+		
+		List<Comment> listOfComments = requiredPost.getComments();
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(listOfComments);
+	}
+		
 
 }
