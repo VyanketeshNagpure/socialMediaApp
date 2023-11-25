@@ -49,10 +49,10 @@ public class PostController {
 		
 		if(post.getCaptions() != null)
 		requiredPost.setCaptions(post.getCaptions());
-		if(post.getCaptions() != null)
+		if(post.getNoOfComments() != null)
 		requiredPost.setNoOfComments(post.getNoOfComments());
 		//requiredPost.setImage(post.getImage());
-		if(post.getCaptions() != null)
+		if(post.getLikes() != null)
 		requiredPost.setLikes(post.getLikes());
 		
 		postRepository.save(requiredPost);
