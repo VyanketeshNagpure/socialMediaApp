@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.Comment;
+import com.example.demo.model.ExplorePost;
 import com.example.demo.model.Post;
+import com.example.demo.repository.ExplorePostRepository;
 import com.example.demo.repository.PostRepository;
 
 @RestController
@@ -23,6 +25,11 @@ public class PostController {
 	
 	@Autowired
 	PostRepository postRepository;
+	
+	@Autowired
+	ExplorePostRepository explorePostRepository;
+	
+	
 	@CrossOrigin(origins = "http://localhost:8080")
 	@PostMapping("/feed")
 	public ResponseEntity<Post> savePostDetails(@RequestBody Post post) {
@@ -49,8 +56,10 @@ public class PostController {
 		
 		if(post.getCaptions() != null)
 		requiredPost.setCaptions(post.getCaptions());
-		if(post.getNoOfComments() != null)
+		
+		if(post.getNoOfComments() != null )
 		requiredPost.setNoOfComments(post.getNoOfComments());
+		
 		//requiredPost.setImage(post.getImage());
 		if(post.getLikes() != null)
 		requiredPost.setLikes(post.getLikes());
@@ -90,5 +99,24 @@ public class PostController {
 				.body(listOfComments);
 	}
 		
+	
+	@PostMapping("/explore")
+	public ResponseEntity<ExplorePost> saveExplorePostDetails(@RequestBody ExplorePost post) {
+		
+		explorePostRepository.save(post);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(post);
+	}
+	
+	@GetMapping("/explore")
+	public ResponseEntity<List<ExplorePost>> getAllExploreDetails(){
+		
+		List<ExplorePost> findAll = explorePostRepository.findAll();
+		return ResponseEntity.status(HttpStatus.FOUND)
+				.body(findAll);
+	}
+	
+	
 
 }

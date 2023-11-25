@@ -21,7 +21,7 @@ public class Post {
 	Integer noOfComments = 0;
 	@ElementCollection  
 	List<Comment> Comments;
-	Integer likes = 0;
+	Integer likes;
 	String captions;
 	String image;
 	
@@ -30,8 +30,9 @@ public class Post {
 	public Post() {
 		super();
 	}
-	
-	
+
+
+
 	public Post(Long postId, Long userId, String userName, Integer noOfComments, List<Comment> comments, Integer likes,
 			String captions, String image) {
 		super();
@@ -39,7 +40,7 @@ public class Post {
 		this.userId = userId;
 		this.userName = userName;
 		this.noOfComments = noOfComments;
-		Comments = comments;
+		this.Comments = comments;
 		this.likes = likes;
 		this.captions = captions;
 		this.image = image;
