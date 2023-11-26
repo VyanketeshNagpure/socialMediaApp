@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.Comment;
-import com.example.demo.model.ExplorePost;
-import com.example.demo.model.Post;
+import com.example.demo.entity.ExplorePost;
+import com.example.demo.entity.Post;
 import com.example.demo.repository.ExplorePostRepository;
 import com.example.demo.repository.PostRepository;
 
