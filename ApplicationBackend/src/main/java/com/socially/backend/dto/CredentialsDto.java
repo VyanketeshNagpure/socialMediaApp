@@ -2,24 +2,24 @@ package com.socially.backend.dto;
 
 public class CredentialsDto {
 	
-	private String login;
+	private String userName;
     private char[] password;
 
     public CredentialsDto() {
         super();
     }
 
-    public CredentialsDto(String login, char[] password) {
-        this.login = login;
+    public CredentialsDto(String userName, char[] password) {
+        this.userName = userName;
         this.password = password;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setuserName(String userName) {
+        this.userName = userName;
     }
 
     public char[] getPassword() {

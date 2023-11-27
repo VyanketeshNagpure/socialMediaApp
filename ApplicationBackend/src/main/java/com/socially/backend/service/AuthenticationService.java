@@ -25,17 +25,17 @@ public class AuthenticationService {
         this.userRepository = userRepository;
     }
 
-	public UserDto findByLogin(String login) {
-		SqlUser user = userRepository.findByLogin(login)
+	public UserDto findByUserName(String login) {
+		SqlUser user = userRepository.findByUserName(login)
                 .orElseThrow(() -> new RuntimeException("Token not found"));
         return new UserDto(user.getId(),
                 user.getFirstName(), 
                 user.getLastName(),
-                user.getLogin());
+                user.getUserName());
 	}
 
 	public UserDto authenticate(CredentialsDto credentialsDto) {
-		SqlUser user = userRepository.findByLogin(credentialsDto.getLogin())
+		SqlUser user = userRepository.findByUserName(credentialsDto.getUserName())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword())) {
@@ -43,7 +43,7 @@ public class AuthenticationService {
             return new UserDto(user.getId(),
                     user.getFirstName(),
                     user.getLastName(),
-                    user.getLogin());
+                    user.getUserName());
         }
         throw new RuntimeException("Invalid password");
 	}

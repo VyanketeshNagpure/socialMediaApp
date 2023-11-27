@@ -5,18 +5,18 @@ public class UserDto {
 	 private Long id;
 	    private String firstName;
 	    private String lastName;
-	    private String login;
+	    private String userName;
 	    private String token;
 
 	    public UserDto() {
 	        super();
 	    }
 
-	    public UserDto(Long id, String firstName, String lastName, String login) {
+	    public UserDto(Long id, String firstName, String lastName, String userName) {
 	        this.id = id;
 	        this.firstName = firstName;
 	        this.lastName = lastName;
-	        this.login = login;
+	        this.userName = userName;
 	    }
 
 	    public Long getId() {
@@ -43,12 +43,12 @@ public class UserDto {
 	        this.lastName = lastName;
 	    }
 
-	    public String getLogin() {
-	        return login;
+	    public String getUserName() {
+	        return userName;
 	    }
 
-	    public void setLogin(String login) {
-	        this.login = login;
+	    public void setuserName(String userName) {
+	        this.userName = userName;
 	    }
 
 	    public String getToken() {

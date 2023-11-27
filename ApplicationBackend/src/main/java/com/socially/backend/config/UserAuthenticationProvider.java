@@ -18,15 +18,16 @@ import com.socially.backend.dto.CredentialsDto;
 import com.socially.backend.dto.UserDto;
 import com.socially.backend.service.AuthenticationService;
 
+import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 
 @Component
 public class UserAuthenticationProvider {
 	
 	@Value("${security.jwt.token.secret-key:secret_key}")
-	private String secretkey;
+	private String secretKey;
 	
-	AuthenticationService authenticationService;
+	private final AuthenticationService authenticationService;
 	
 	@Autowired
 	public UserAuthenticationProvider(AuthenticationService authenticationService) {
@@ -36,19 +37,19 @@ public class UserAuthenticationProvider {
 
 	@PostConstruct
 	protected void init() {
-		secretkey = Base64.getEncoder().encodeToString(secretkey.getBytes());
+		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 	
 	
-	public String createToken(String login) {
+	public String createToken(String userName) {
 		
-		Algorithm algorithm = Algorithm.HMAC256(secretkey);
+		Algorithm algorithm = Algorithm.HMAC256(secretKey);
 		
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + 3600000); // validity 1 hr
 		
 		return JWT.create()
-				.withIssuer(login)
+				.withIssuer(userName)
 				.withIssuedAt(now)
 				.withExpiresAt(validity)
 				.sign(algorithm);
@@ -57,13 +58,20 @@ public class UserAuthenticationProvider {
 
 	public Authentication validateToken(String token) {
 		
-		Algorithm algorithm = Algorithm.HMAC256(secretkey);
+		Algorithm algorithm = Algorithm.HMAC256(secretKey);
 		
 		JWTVerifier verifier = JWT.require(algorithm).build();
 		
 		DecodedJWT decoded = verifier.verify(token);
+		UserDto user = authenticationService.findByUserName(decoded.getIssuer());
 		
-		UserDto user = AuthenticationService.findByLogin(decoded.getIssuer());
+//		 String login = Jwts.parser()
+//	                .setSigningKey(secretKey)
+//	                .parseClaimsJws(token)
+//	                .getBody()
+//	                .getSubject();
+//		
+//		UserDto user = authenticationService.findByUserName(login);
 		
 		return new UsernamePasswordAuthenticationToken(user , null , Collections.emptyList());
 	}

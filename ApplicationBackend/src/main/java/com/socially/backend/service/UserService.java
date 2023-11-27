@@ -28,33 +28,33 @@ public class UserService {
     }
 
 	public UserDto signUp(@Valid SignUpDto userDto) {
-		Optional<SqlUser> optionalUser = userRepository.findByLogin(userDto.getLogin());
+		Optional<SqlUser> optionalUser = userRepository.findByUserName(userDto.getUserName());
 
         if (optionalUser.isPresent()) {
             throw new RuntimeException("UserName already exists");
         }
 
-//        SqlUser user = new SqlUser(
-//                userDto.getFirstName(),
-//                userDto.getLastName(),
-//                userDto.getLogin(),
-//                passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())),
-//                LocalDateTime.now()
-//                );
+        SqlUser user = new SqlUser(
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getUserName(),
+                passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())),
+                LocalDateTime.now()
+                );
         
-        SqlUser user = new SqlUser();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setLogin(userDto.getLogin());
-        user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
-        user.setCreatedDate(LocalDateTime.now());
+//        SqlUser user = new SqlUser();
+//        user.setFirstName(userDto.getFirstName());
+//        user.setLastName(userDto.getLastName());
+//        user.setLogin(userDto.getLogin());
+//        user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
+//        user.setCreatedDate(LocalDateTime.now());
 
         SqlUser savedUser = userRepository.save(user);
 
         return new UserDto(savedUser.getId(),
                 savedUser.getFirstName(),
                 savedUser.getLastName(),
-                savedUser.getLogin());
+                savedUser.getUserName());
     }
 
     private SqlUser getUser(Long id) {

@@ -15,7 +15,7 @@ public class SqlUser {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private String login;
+	private String userName;
 	private String password;
 	// private List<SqlUser> friends;
 	private LocalDateTime createdDate;
@@ -34,25 +34,25 @@ public class SqlUser {
 	}
 
 
-	public SqlUser(String firstName, String lastName, String login, String password,
+	public SqlUser(String firstName, String lastName, String userName, String password,
 			LocalDateTime createdDate) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.login = login;
+		this.userName = userName;
 		this.password = password;
 		this.createdDate = createdDate;
 	}
 	
 	
 
-	public SqlUser(Long id, String firstName, String lastName, String login, String password,
+	public SqlUser(Long id, String firstName, String lastName, String userName, String password,
 			LocalDateTime createdDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.login = login;
+		this.userName = userName;
 		this.password = password;
 		this.createdDate = createdDate;
 	}
@@ -83,12 +83,12 @@ public class SqlUser {
 		this.lastName = lastName;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setuserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -109,7 +109,7 @@ public class SqlUser {
 
 	@Override
 	public String toString() {
-		return "SqlUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", login=" + login
+		return "SqlUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + userName
 				+ ", password=" + password + ", createdDate=" + createdDate + "]";
 	}
 

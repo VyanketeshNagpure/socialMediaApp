@@ -5,7 +5,6 @@ import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,14 +30,15 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> signIn(@AuthenticationPrincipal UserDto user) {
-        user.setToken(userAuthenticationProvider.createToken(user.getLogin()));
+        user.setToken(userAuthenticationProvider.createToken(user.getUserName()));
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signUp(@RequestBody @Valid SignUpDto user) {
         UserDto createdUser = userService.signUp(user);
-        return ResponseEntity.created(URI.create("/users/" + createdUser.getId() + "/profile")).body(createdUser);
+        ResponseEntity<UserDto> response = ResponseEntity.created(URI.create("/users/" + createdUser.getId() + "/profile")).body(createdUser);
+        return response;
     }
 
     @PostMapping("/logout")

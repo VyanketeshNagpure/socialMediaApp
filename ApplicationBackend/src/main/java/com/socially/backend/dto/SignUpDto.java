@@ -11,7 +11,7 @@ public class SignUpDto {
     private String lastName;
 
     @NotEmpty
-    private String login;
+    private String userName;
 
     @NotEmpty
     private char[] password;
@@ -20,10 +20,10 @@ public class SignUpDto {
         super();
     }
 
-    public SignUpDto(@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String login, @NotEmpty char[] password) {
+    public SignUpDto(@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String userName, @NotEmpty char[] password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.login = login;
+        this.userName = userName;
         this.password = password;
     }
 
@@ -43,12 +43,12 @@ public class SignUpDto {
         this.lastName = lastName;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setuserName(String userName) {
+        this.userName = userName;
     }
 
     public char[] getPassword() {
