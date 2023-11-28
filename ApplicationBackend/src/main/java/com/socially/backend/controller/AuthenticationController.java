@@ -37,6 +37,7 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signUp(@RequestBody @Valid SignUpDto user) {
         UserDto createdUser = userService.signUp(user);
+        createdUser.setToken(userAuthenticationProvider.createToken(user.getUserName()));
         ResponseEntity<UserDto> response = ResponseEntity.created(URI.create("/users/" + createdUser.getId() + "/profile")).body(createdUser);
         return response;
     }

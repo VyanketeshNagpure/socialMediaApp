@@ -1,9 +1,11 @@
 package com.socially.backend.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,29 +14,40 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.socially.backend.dao.Comment;
 import com.socially.backend.entity.ExplorePost;
 import com.socially.backend.entity.Post;
 import com.socially.backend.repository.ExplorePostRepository;
 import com.socially.backend.repository.PostRepository;
+import com.socially.backend.service.PostService;
+import com.socially.backend.service.UserService;
 
 @RestController
 public class PostController {
 	
+	private final PostRepository postRepository;
+	private final ExplorePostRepository explorePostRepository;
+	private final PostService postService;
+
 	@Autowired
-	PostRepository postRepository;
-	
-	@Autowired
-	ExplorePostRepository explorePostRepository;
-	
-	
+	public PostController(PostRepository postRepository, ExplorePostRepository explorePostRepository,
+			PostService postService) {
+		super();
+		this.postRepository = postRepository;
+		this.explorePostRepository = explorePostRepository;
+		this.postService = postService;
+	}
+
 	@CrossOrigin(origins = "http://localhost:8080")
-	@PostMapping("/feed")
-	public ResponseEntity<Post> savePostDetails(@RequestBody Post post) {
+	@PostMapping(path ="/feed",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Post> savePostDetails(@RequestPart("image") MultipartFile image,
+            									@RequestPart("post") Post post) throws IllegalStateException, IOException {
 		
-		postRepository.save(post);
+		postService.savePost(image,post);
 		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(post);

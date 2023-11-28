@@ -5,12 +5,16 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.socially.backend.dto.SignUpDto;
 import com.socially.backend.dto.UserDto;
+import com.socially.backend.entity.Post;
 import com.socially.backend.entity.SqlUser;
+import com.socially.backend.exceptions.AppExceptions;
 import com.socially.backend.repository.UserRepository;
 
 import jakarta.validation.Valid;
@@ -31,7 +35,7 @@ public class UserService {
 		Optional<SqlUser> optionalUser = userRepository.findByUserName(userDto.getUserName());
 
         if (optionalUser.isPresent()) {
-            throw new RuntimeException("UserName already exists");
+            throw new AppExceptions("UserName already exists" , HttpStatus.BAD_REQUEST);
         }
 
         SqlUser user = new SqlUser(
@@ -59,8 +63,10 @@ public class UserService {
 
     private SqlUser getUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppExceptions("User not found" , HttpStatus.NOT_FOUND));
     }
+
+
 	
 	
 

@@ -2,8 +2,8 @@ package com.socially.backend.config;
 
 import java.io.IOException;
 
-
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.socially.backend.dto.ErrorDto;
+import com.socially.backend.exceptions.AppExceptions;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,7 +29,13 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint{
     	
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto("Unauthorized path"));
+        
+        
+        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto("inncorrect id or password"));
+    	
+    	//throw new AppExceptions("Unauthorized access", HttpStatus.UNAUTHORIZED); 
+
+    
     }
 
 }
