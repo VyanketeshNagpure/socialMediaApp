@@ -54,13 +54,14 @@ public class PostController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")
-	@GetMapping("/feed")
-	public ResponseEntity<List<Post>> getAllDetails(){
-		
-		List<Post> findAll = postRepository.findAll();
+	@GetMapping("feed/{loggedInUserName}")
+	public ResponseEntity<List<Post>> getAllDetails(@PathVariable String loggedInUserName){
+
+		List<Post> findAll = postService.getAllUserFeed(loggedInUserName);
 		return ResponseEntity.status(HttpStatus.FOUND)
 				.body(findAll);
 	}
+	
 	
 	@PutMapping("/feed/{postId}")
 	public ResponseEntity<Post> updatePostDetails(@RequestBody Post post,@PathVariable Long postId, ModelMap model){

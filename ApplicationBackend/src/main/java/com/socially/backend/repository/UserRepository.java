@@ -8,7 +8,7 @@ import com.socially.backend.entity.SqlUser;
 
 public interface UserRepository extends JpaRepository<SqlUser, Long> {
 	
-	Optional<SqlUser> findByUserName(String login);
+	Optional<SqlUser> findByUserName(String userName);
 
 //    @Query("{$or: [{firstName: /?0/}, {lastName: /?0/}, {login: /?0/}]}")
 //    List<SqlUser> searchUsers(String term);

@@ -2,6 +2,7 @@ package com.socially.backend.service;
 
 import java.nio.CharBuffer;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class UserService {
                 userDto.getLastName(),
                 userDto.getUserName(),
                 passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                userDto.getSociallyBio()
                 );
         
 //        SqlUser user = new SqlUser();
@@ -58,13 +60,40 @@ public class UserService {
         return new UserDto(savedUser.getId(),
                 savedUser.getFirstName(),
                 savedUser.getLastName(),
-                savedUser.getUserName());
+                savedUser.getUserName(),
+                savedUser.getSociallyBio());
     }
 
-    private SqlUser getUser(Long id) {
-        return userRepository.findById(id)
+    public SqlUser getUser(String userName) {
+        return userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppExceptions("User not found" , HttpStatus.NOT_FOUND));
     }
+
+	public UserDto updateUserFollowing(String loggedInUserName,String searchedUserName) {
+		SqlUser loggedInUser = getUser(loggedInUserName);
+		SqlUser searchedUser = getUser(searchedUserName);
+		
+		List<String> loggedInUserFollowing = loggedInUser.getFollowing();
+		List<String> searchedUserfollowers = searchedUser.getFollowers();
+		
+		searchedUserfollowers.add(loggedInUserName);
+		loggedInUserFollowing.add(searchedUserName);
+		
+		searchedUser.setFollowers(searchedUserfollowers);
+		loggedInUser.setFollowing(loggedInUserFollowing);
+		
+		 SqlUser savedUser = userRepository.save(loggedInUser);
+		 userRepository.save(searchedUser);
+		 
+		 return new UserDto(savedUser.getId(),
+	                savedUser.getFirstName(),
+	                savedUser.getLastName(),
+	                savedUser.getUserName(),
+	                savedUser.getSociallyBio(),
+				 	savedUser.getFollowing(),
+				 	savedUser.getFollowers(),null);
+		
+	}
 
 
 	

@@ -1,6 +1,8 @@
 package com.socially.backend.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +19,9 @@ public class SqlUser {
 	private String lastName;
 	private String userName;
 	private String password;
-	// private List<SqlUser> friends;
+	private List<String> following = new ArrayList<>();
+	private List<String> followers = new ArrayList<>();
+	private String sociallyBio;
 	private LocalDateTime createdDate;
 
 	public SqlUser() {
@@ -35,26 +39,65 @@ public class SqlUser {
 
 
 	public SqlUser(String firstName, String lastName, String userName, String password,
-			LocalDateTime createdDate) {
+			LocalDateTime createdDate,String sociallyBio) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.createdDate = createdDate;
+		this.sociallyBio = sociallyBio;
 	}
 	
-	
 
-	public SqlUser(Long id, String firstName, String lastName, String userName, String password,
-			LocalDateTime createdDate) {
+	public SqlUser(Long id, String firstName, String lastName, String userName, String password, List<String> following,
+			List<String> followers, String sociallyBio, LocalDateTime createdDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
+		this.following = following;
+		this.followers = followers;
+		this.sociallyBio = sociallyBio;
 		this.createdDate = createdDate;
+	}
+
+	
+
+	public List<String> getFollowing() {
+		return following;
+	}
+
+
+
+	public void setFollowing(List<String> following) {
+		this.following = following;
+	}
+
+
+
+	public List<String> getFollowers() {
+		return followers;
+	}
+
+
+
+	public void setFollowers(List<String> followers) {
+		this.followers = followers;
+	}
+
+
+
+	public String getSociallyBio() {
+		return sociallyBio;
+	}
+
+
+
+	public void setSociallyBio(String sociallyBio) {
+		this.sociallyBio = sociallyBio;
 	}
 
 
@@ -87,7 +130,7 @@ public class SqlUser {
 		return userName;
 	}
 
-	public void setuserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 

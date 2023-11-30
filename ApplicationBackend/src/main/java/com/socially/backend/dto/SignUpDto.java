@@ -15,19 +15,33 @@ public class SignUpDto {
 
     @NotEmpty
     private char[] password;
+    
+    private String sociallyBio;
 
     public SignUpDto() {
         super();
     }
 
-    public SignUpDto(@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String userName, @NotEmpty char[] password) {
+    public SignUpDto(@NotEmpty String firstName, @NotEmpty String lastName, @NotEmpty String userName, 
+    					@NotEmpty char[] password,String sociallyBio) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
+        this.sociallyBio =sociallyBio;
     }
+    
+    
 
-    public String getFirstName() {
+    public String getSociallyBio() {
+		return sociallyBio;
+	}
+
+	public void setSociallyBio(String sociallyBio) {
+		this.sociallyBio = sociallyBio;
+	}
+
+	public String getFirstName() {
         return firstName;
     }
 
@@ -47,7 +61,7 @@ public class SignUpDto {
         return userName;
     }
 
-    public void setuserName(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 

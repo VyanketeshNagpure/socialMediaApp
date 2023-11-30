@@ -33,7 +33,8 @@ public class AuthenticationService {
         return new UserDto(user.getId(),
                 user.getFirstName(), 
                 user.getLastName(),
-                user.getUserName());
+                user.getUserName(),
+        		user.getSociallyBio());
 	}
 
 	public UserDto authenticate(CredentialsDto credentialsDto) {
@@ -45,7 +46,8 @@ public class AuthenticationService {
             return new UserDto(user.getId(),
                     user.getFirstName(),
                     user.getLastName(),
-                    user.getUserName());
+                    user.getUserName(),
+                    user.getSociallyBio());
         }
         throw new AppExceptions("Invalid password",HttpStatus.BAD_REQUEST);
 	}

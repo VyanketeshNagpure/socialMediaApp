@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Post {
@@ -16,15 +17,22 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long postId;
-	Long userId;
+	
+	@NotEmpty
 	String userName;
+	
 	Integer noOfComments = 0;
+	
 	@ElementCollection  
 	List<Comment> Comments;
-	Integer likes;
-	String captions;
-	String image;
 	
+	Integer likes;
+	
+	@NotEmpty
+	String captions;
+	
+	@NotEmpty
+	String imagePath;
 	
 	
 	public Post() {
@@ -33,17 +41,16 @@ public class Post {
 
 
 
-	public Post(Long postId, Long userId, String userName, Integer noOfComments, List<Comment> comments, Integer likes,
-			String captions, String image) {
+	public Post(Long postId, String userName, Integer noOfComments, List<Comment> comments, Integer likes,
+			String captions, String imagePath) {
 		super();
 		this.postId = postId;
-		this.userId = userId;
 		this.userName = userName;
 		this.noOfComments = noOfComments;
 		this.Comments = comments;
 		this.likes = likes;
 		this.captions = captions;
-		this.image = image;
+		this.imagePath = imagePath;
 	}
 
 
@@ -54,16 +61,6 @@ public class Post {
 
 	public void setPostId(Long postId) {
 		this.postId = postId;
-	}
-
-
-	public Long getUserId() {
-		return userId;
-	}
-
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 
@@ -117,13 +114,13 @@ public class Post {
 	}
 
 
-	public String getImage() {
-		return image;
+	public String getImagePath() {
+		return imagePath;
 	}
 
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setImagePath(String image) {
+		this.imagePath = image;
 	}
 
 
