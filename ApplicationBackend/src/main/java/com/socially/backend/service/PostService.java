@@ -43,8 +43,8 @@ public class PostService {
 	
 	private String saveImage(MultipartFile image) throws IllegalStateException, IOException {
       
-		image.transferTo( new File("d:\\" + image.getOriginalFilename()));
-        return ("d:\\" + image.getOriginalFilename());
+		image.transferTo( new File("c:\\workspace\\projects\\api-practice\\public\\uploads\\" + image.getOriginalFilename()));
+        return ("/uploads/" + image.getOriginalFilename());	
     }
 
 	public List<Post> getAllUserFeed(String loggedInUserName) {
