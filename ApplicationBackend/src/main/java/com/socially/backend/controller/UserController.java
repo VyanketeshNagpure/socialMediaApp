@@ -42,6 +42,12 @@ public class UserController {
 												requiredUser.getFollowers(),null));
 	}
 	
+	@GetMapping("/search/users")
+	public ResponseEntity<List<SqlUser>> getALlUsers(@PathVariable String userName){
+		List<SqlUser> allUsers = userService.getAllUsers();
+		return ResponseEntity.status(HttpStatus.OK).body(allUsers);
+	}
+	
 	@GetMapping("getPost/{userName}")
 	public ResponseEntity<List<Post>> getPostsByUserName(@PathVariable String userName){
 		List<Post> userPosts = userService.getPosts(userName);

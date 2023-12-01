@@ -133,6 +133,12 @@ public class UserService {
 		
 	}
 
+	public List<SqlUser> getAllUsers() {
+		List<SqlUser> usersList = userRepository.findAll();
+		return usersList;
+		
+	}
+
 
 	
 	
