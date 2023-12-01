@@ -28,10 +28,9 @@ public class Post {
 	
 	Integer likes;
 	
-	@NotEmpty
 	String captions;
 	
-	@NotEmpty
+	
 	String imagePath;
 	
 	
