@@ -16,6 +16,7 @@ import com.socially.backend.dto.UserDto;
 import com.socially.backend.entity.Post;
 import com.socially.backend.entity.SqlUser;
 import com.socially.backend.exceptions.AppExceptions;
+import com.socially.backend.repository.PostRepository;
 import com.socially.backend.repository.UserRepository;
 
 import jakarta.validation.Valid;
@@ -24,12 +25,14 @@ import jakarta.validation.Valid;
 public class UserService {
 	
 	private final UserRepository userRepository;
+	private final PostRepository postRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,PostRepository postRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.postRepository = postRepository;
     }
 
 	public UserDto signUp(@Valid SignUpDto userDto) {
@@ -92,6 +95,14 @@ public class UserService {
 	                savedUser.getSociallyBio(),
 				 	savedUser.getFollowing(),
 				 	savedUser.getFollowers(),null);
+		
+	}
+
+	public List<Post> getPosts(String userName) {
+		
+		List<Post> userPosts = postRepository.findAllByUserName(userName)
+				.orElseThrow(()->new AppExceptions("incorrect userName", HttpStatus.NOT_FOUND));
+		return userPosts;
 		
 	}
 

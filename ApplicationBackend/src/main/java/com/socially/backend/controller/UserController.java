@@ -1,6 +1,10 @@
 package com.socially.backend.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.socially.backend.dto.UserDto;
+import com.socially.backend.entity.Post;
 import com.socially.backend.entity.SqlUser;
 import com.socially.backend.service.UserService;
 
@@ -26,7 +31,7 @@ public class UserController {
 		SqlUser requiredUser = userService.getUser(userName);
 		
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+		return ResponseEntity.status(HttpStatus.FOUND)
 							 .body(new UserDto( requiredUser.getId(),
 												requiredUser.getFirstName(),
 												requiredUser.getLastName(),
@@ -34,6 +39,13 @@ public class UserController {
 												requiredUser.getSociallyBio(),
 												requiredUser.getFollowing(),
 												requiredUser.getFollowers(),null));
+	}
+	
+	@GetMapping("getPost/{userName}")
+	public ResponseEntity<List<Post>> getPostsByUserName(@PathVariable String userName){
+		List<Post> userPosts = userService.getPosts(userName);
+		
+		return ResponseEntity.status(HttpStatus.FOUND).body(userPosts);
 	}
 	
 	@PutMapping("updateUser/{loggedInUser}/search/{searchedUserName}")
