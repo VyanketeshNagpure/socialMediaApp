@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.socially.backend.dto.UserDto;
@@ -46,6 +47,15 @@ public class UserController {
 		List<Post> userPosts = userService.getPosts(userName);
 		
 		return ResponseEntity.status(HttpStatus.FOUND).body(userPosts);
+	}
+	
+	@PutMapping("edit/{userName}")
+	public ResponseEntity<UserDto> editUser(@RequestBody UserDto userDto,@PathVariable String userName){
+		
+		UserDto newUserDto = userService.editUser(userDto,userName);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(newUserDto);
+		
 	}
 	
 	@PutMapping("updateUser/{loggedInUser}/search/{searchedUserName}")

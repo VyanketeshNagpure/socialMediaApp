@@ -106,6 +106,33 @@ public class UserService {
 		
 	}
 
+	public UserDto editUser(UserDto userDto, String userName) {
+
+
+		SqlUser requiredUser = userRepository.findByUserName(userName)
+				.orElseThrow(()->new AppExceptions("incorrect userName", HttpStatus.NOT_FOUND));
+		
+		if(userDto.getFirstName() != null)
+		requiredUser.setFirstName(userDto.getFirstName());
+		if(userDto.getLastName() != null)
+		requiredUser.setLastName(userDto.getLastName());
+		if(userDto.getSociallyBio() != null)
+		requiredUser.setSociallyBio(userDto.getSociallyBio());
+		
+		userRepository.save(requiredUser);
+		
+		
+		
+		return new UserDto(requiredUser.getId(),
+						   requiredUser.getFirstName(),
+						   requiredUser.getLastName(),
+						   requiredUser.getUserName(),
+						   requiredUser.getSociallyBio());
+		
+		
+		
+	}
+
 
 	
 	
