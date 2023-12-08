@@ -79,7 +79,7 @@ public class UserService {
 		List<String> loggedInUserFollowing = loggedInUser.getFollowing();
 		List<String> searchedUserfollowers = searchedUser.getFollowers();
 		
-		if(searchedUserfollowers.contains(searchedUserName)) {
+		if(loggedInUserFollowing.contains(searchedUserName)) {
 			return new UserDto();
 		}
 		else {
