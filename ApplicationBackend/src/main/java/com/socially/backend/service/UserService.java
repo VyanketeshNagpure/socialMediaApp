@@ -2,6 +2,7 @@ package com.socially.backend.service;
 
 import java.nio.CharBuffer;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,14 +42,18 @@ public class UserService {
         if (optionalUser.isPresent()) {
             throw new AppExceptions("UserName already exists" , HttpStatus.BAD_REQUEST);
         }
-
+        
+        List<String> userFollwing = new ArrayList<>();
+        userFollwing.add(userDto.getUserName());
+        
         SqlUser user = new SqlUser(
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getUserName(),
                 passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())),
                 LocalDateTime.now(),
-                userDto.getSociallyBio()
+                userDto.getSociallyBio(),
+                userFollwing
                 );
         
 //        SqlUser user = new SqlUser();
@@ -64,7 +69,8 @@ public class UserService {
                 savedUser.getFirstName(),
                 savedUser.getLastName(),
                 savedUser.getUserName(),
-                savedUser.getSociallyBio());
+                savedUser.getSociallyBio(),
+        		savedUser.getFollowing());
     }
 
     public SqlUser getUser(String userName) {
