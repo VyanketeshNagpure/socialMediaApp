@@ -43,7 +43,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/search/users")
-	public ResponseEntity<List<SqlUser>> getALlUsers(@PathVariable String userName){
+	public ResponseEntity<List<SqlUser>> getALlUsers(){
 		List<SqlUser> allUsers = userService.getAllUsers();
 		return ResponseEntity.status(HttpStatus.OK).body(allUsers);
 	}
