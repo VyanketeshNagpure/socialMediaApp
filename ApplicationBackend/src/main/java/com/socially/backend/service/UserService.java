@@ -80,7 +80,13 @@ public class UserService {
 		List<String> searchedUserfollowers = searchedUser.getFollowers();
 		
 		if(loggedInUserFollowing.contains(searchedUserName)) {
-			return new UserDto();
+			return new UserDto(loggedInUser.getId(),
+					loggedInUser.getFirstName(),
+					loggedInUser.getLastName(),
+					loggedInUser.getUserName(),
+					loggedInUser.getSociallyBio(),
+					loggedInUser.getFollowing(),
+					loggedInUser.getFollowers(),null);
 		}
 		else {
 		searchedUserfollowers.add(loggedInUserName);
