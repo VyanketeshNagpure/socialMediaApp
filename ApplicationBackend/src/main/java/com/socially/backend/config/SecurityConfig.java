@@ -29,12 +29,10 @@ public class SecurityConfig {
 	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	        http
 	                .exceptionHandling((exception) ->exception.authenticationEntryPoint(userauthenticationEntryPoint))
-	                //.and()
 	                .addFilterBefore(new UsernamePassAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class)
 	                .addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), UsernamePassAuthFilter.class)
 	                .csrf(csrf -> csrf.disable())
 	                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	               // .and()
 	                .authorizeHttpRequests((requests) -> requests
 	                        .requestMatchers(HttpMethod.POST, "/login", "/signup").permitAll()
 	                        .anyRequest().authenticated())

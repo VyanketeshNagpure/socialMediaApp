@@ -79,6 +79,10 @@ public class UserService {
 		List<String> loggedInUserFollowing = loggedInUser.getFollowing();
 		List<String> searchedUserfollowers = searchedUser.getFollowers();
 		
+		if(searchedUserfollowers.contains(searchedUserName)) {
+			return new UserDto();
+		}
+		else {
 		searchedUserfollowers.add(loggedInUserName);
 		loggedInUserFollowing.add(searchedUserName);
 		
@@ -87,7 +91,8 @@ public class UserService {
 		
 		 SqlUser savedUser = userRepository.save(loggedInUser);
 		 userRepository.save(searchedUser);
-		 
+		
+		
 		 return new UserDto(savedUser.getId(),
 	                savedUser.getFirstName(),
 	                savedUser.getLastName(),
@@ -95,6 +100,7 @@ public class UserService {
 	                savedUser.getSociallyBio(),
 				 	savedUser.getFollowing(),
 				 	savedUser.getFollowers(),null);
+		}
 		
 	}
 
