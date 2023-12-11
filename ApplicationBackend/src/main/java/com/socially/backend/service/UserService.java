@@ -78,7 +78,7 @@ public class UserService {
                 .orElseThrow(() -> new AppExceptions("User not found" , HttpStatus.NOT_FOUND));
     }
 
-	public UserDto updateUserFollowing(String loggedInUserName,String searchedUserName) {
+	public UserDto addToUserFollowing(String loggedInUserName,String searchedUserName) {
 		SqlUser loggedInUser = getUser(loggedInUserName);
 		SqlUser searchedUser = getUser(searchedUserName);
 		
@@ -114,6 +114,31 @@ public class UserService {
 				 	savedUser.getFollowers(),null);
 		}
 		
+	}
+	
+	public UserDto removeFromUserFollowing(String loggedInUserName, String searchedUserName) {
+		SqlUser loggedInUser = getUser(loggedInUserName);
+		SqlUser searchedUser = getUser(searchedUserName);
+		
+		List<String> loggedInUserFollowing = loggedInUser.getFollowing();
+		List<String> searchedUserfollowers = searchedUser.getFollowers();
+		
+		searchedUserfollowers.remove(loggedInUserName);
+		loggedInUserFollowing.remove(searchedUserName);
+		
+		searchedUser.setFollowers(searchedUserfollowers);
+		loggedInUser.setFollowing(loggedInUserFollowing);
+		
+		 SqlUser savedUser = userRepository.save(loggedInUser);
+		 userRepository.save(searchedUser);
+		 
+		 return new UserDto(savedUser.getId(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getUserName(),
+                savedUser.getSociallyBio(),
+			 	savedUser.getFollowing(),
+			 	savedUser.getFollowers(),null);
 	}
 
 	public List<Post> getPosts(String userName) {
@@ -156,6 +181,8 @@ public class UserService {
 		return usersList;
 		
 	}
+
+	
 
 
 	
