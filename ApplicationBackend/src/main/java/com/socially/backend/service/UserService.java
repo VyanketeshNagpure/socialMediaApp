@@ -2,6 +2,7 @@ package com.socially.backend.service;
 
 import java.nio.CharBuffer;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,14 +42,18 @@ public class UserService {
         if (optionalUser.isPresent()) {
             throw new AppExceptions("UserName already exists" , HttpStatus.BAD_REQUEST);
         }
-
+        
+        List<String> userFollwing = new ArrayList<>();
+        userFollwing.add(userDto.getUserName());
+        
         SqlUser user = new SqlUser(
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getUserName(),
                 passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())),
                 LocalDateTime.now(),
-                userDto.getSociallyBio()
+                userDto.getSociallyBio(),
+                userFollwing
                 );
         
 //        SqlUser user = new SqlUser();
@@ -64,7 +69,8 @@ public class UserService {
                 savedUser.getFirstName(),
                 savedUser.getLastName(),
                 savedUser.getUserName(),
-                savedUser.getSociallyBio());
+                savedUser.getSociallyBio(),
+        		savedUser.getFollowing());
     }
 
     public SqlUser getUser(String userName) {
@@ -72,7 +78,7 @@ public class UserService {
                 .orElseThrow(() -> new AppExceptions("User not found" , HttpStatus.NOT_FOUND));
     }
 
-	public UserDto updateUserFollowing(String loggedInUserName,String searchedUserName) {
+	public UserDto addToUserFollowing(String loggedInUserName,String searchedUserName) {
 		SqlUser loggedInUser = getUser(loggedInUserName);
 		SqlUser searchedUser = getUser(searchedUserName);
 		
@@ -108,6 +114,31 @@ public class UserService {
 				 	savedUser.getFollowers(),null);
 		}
 		
+	}
+	
+	public UserDto removeFromUserFollowing(String loggedInUserName, String searchedUserName) {
+		SqlUser loggedInUser = getUser(loggedInUserName);
+		SqlUser searchedUser = getUser(searchedUserName);
+		
+		List<String> loggedInUserFollowing = loggedInUser.getFollowing();
+		List<String> searchedUserfollowers = searchedUser.getFollowers();
+		
+		searchedUserfollowers.remove(loggedInUserName);
+		loggedInUserFollowing.remove(searchedUserName);
+		
+		searchedUser.setFollowers(searchedUserfollowers);
+		loggedInUser.setFollowing(loggedInUserFollowing);
+		
+		 SqlUser savedUser = userRepository.save(loggedInUser);
+		 userRepository.save(searchedUser);
+		 
+		 return new UserDto(savedUser.getId(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getUserName(),
+                savedUser.getSociallyBio(),
+			 	savedUser.getFollowing(),
+			 	savedUser.getFollowers(),null);
 	}
 
 	public List<Post> getPosts(String userName) {
@@ -150,6 +181,8 @@ public class UserService {
 		return usersList;
 		
 	}
+
+	
 
 
 	

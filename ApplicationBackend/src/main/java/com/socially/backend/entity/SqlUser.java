@@ -39,7 +39,7 @@ public class SqlUser {
 
 
 	public SqlUser(String firstName, String lastName, String userName, String password,
-			LocalDateTime createdDate,String sociallyBio) {
+			LocalDateTime createdDate,String sociallyBio,List<String> following) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -47,6 +47,7 @@ public class SqlUser {
 		this.password = password;
 		this.createdDate = createdDate;
 		this.sociallyBio = sociallyBio;
+		this.following = following;
 	}
 	
 

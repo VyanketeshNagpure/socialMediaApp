@@ -26,6 +26,16 @@ public class UserDto {
 			this.userName = userName;
 			this.sociallyBio = sociallyBio;
 		}
+	    
+	    public UserDto(Long id, String firstName, String lastName, String userName, String sociallyBio,List<String> following) {
+	    	super();
+	    	this.id = id;
+	    	this.firstName = firstName;
+	    	this.lastName = lastName;
+	    	this.userName = userName;
+	    	this.sociallyBio = sociallyBio;
+	    	this.following = following;
+	    }
 
 
 

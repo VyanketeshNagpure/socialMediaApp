@@ -65,11 +65,22 @@ public class UserController {
 	}
 	
 	@PutMapping("updateUser/{loggedInUser}/search/{searchedUserName}")
-	public ResponseEntity<UserDto> updateUserFollowing(@PathVariable("loggedInUser") String loggedInUser , 
+	public ResponseEntity<UserDto> updateUserFollowing(@PathVariable("loggedInUser") String loggedInUserName , 
 													@PathVariable("searchedUserName") String searchedUserName ){
 		
-		UserDto userData = userService.updateUserFollowing(loggedInUser,searchedUserName);
+		UserDto userData = userService.addToUserFollowing(loggedInUserName,searchedUserName);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(userData);
 	}
+	
+	@PutMapping("updateUser/{loggedInUser}/unfollow/{searchedUserName}")
+	public ResponseEntity<UserDto> removeFromUserFollowing(@PathVariable("loggedInUser") String loggedInUserName , 
+			@PathVariable("searchedUserName") String searchedUserName ){
+		
+		UserDto userData = userService.removeFromUserFollowing(loggedInUserName,searchedUserName);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(userData);
+	}
+	
+	
 }
